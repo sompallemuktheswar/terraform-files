@@ -1,0 +1,31 @@
+ write a one flask application  to display /ec2info give to display the information by using python boto3
+ from flask import Flask
+import os
+import boto3
+
+app=Flask(_name_)
+app.config['aws_services']= ['Volume']
+AWS_REGION = "ap-southeast-2"
+
+ec2_resource = boto3.resource('ec2', region_name=AWS_REGION)
+for volume in ec2_resource.volumes.all():
+    print([volume.id,volume.size])
+app.config['aws_services'] = ['ec2']
+client = boto3.client('ec2')
+response = client.describe_instances()
+for reservation in response['Reservations']:
+    for instance in reservation['Instances']:
+        output = print("Running Instance Image Id:{} Running Instance type:{} Running Instance Instance Id:{}".
+                  format(instance['ImageId'],instance['InstanceType'],instance['InstanceId']))    
+    
+@app.route('/volumeinfo')
+def start():
+    return(volume.id)
+@app.route("/ec2info")
+def ec2():
+    return(instance)
+@app.route("/data")
+def data():
+    return 'ec2 and volume infromation'
+if _name_ == '_main_':
+    app.run(host='0.0.0.0',port=8080,debug=True)
